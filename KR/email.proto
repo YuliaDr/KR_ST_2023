@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package emailinfo;
+
+service EmailService {
+    rpc GetEmail (EmailRequest) returns (EmailResponse);
+}
+
+message EmailResponse {
+    string status = 1;
+}
+
+message EmailRequest {
+    string username_reviewer = 1;
+    string title = 2;
+    string email = 3;
+}
