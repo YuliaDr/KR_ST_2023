@@ -2,8 +2,8 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 from .client import send_email
-from .models import PostInfoView
-from asgiref.sync import sync_to_async
+# from .models import PostInfoView
+# from asgiref.sync import sync_to_async
 
 users = {}
 
@@ -42,13 +42,13 @@ class Consumer(AsyncWebsocketConsumer):
                     'text': json.dumps(response_data)
 
                 }
-                self.channel_layer.send(users[content['id_poster']], new_event)
+                await self.channel_layer.send(users[content['id_poster']], new_event)
 
             else:
                 print("Not connected")
                 send_email(username_reviewer=content['username_reviewer'],
-                                 title=content['title'],
-                                 email=content['email'])
+                           title=content['title'],
+                           email=content['email'])
 
     async def notify_message(self, event):
         print(333, event)

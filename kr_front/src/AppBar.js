@@ -35,18 +35,6 @@ export default function PubReviewAppBar() {
             <AppBar variant="outlined" position="fixed" className="PubReviewAppBar" sx={{ background: '#D5E7F6', borderBottomWidth: 1, borderBottomColor: '#000000', height: 64 }}>
                 {auth.auth === 1 ?
                     <Toolbar>
-                        {/*<IconButton*/}
-                        {/*    size="large"*/}
-                        {/*    edge="start"*/}
-                        {/*    color="inherit"*/}
-                        {/*    aria-label="menu"*/}
-                        {/*    sx={{ mr: 2 }}*/}
-                        {/*>*/}
-                        {/*</IconButton>*/}
-                        {/*<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>*/}
-                        {/*    News*/}
-                        {/*</Typography>*/}
-
                         <Typography component={Link}
                                     to="/"
                                     sx={{ fontSize: 20,
@@ -84,10 +72,6 @@ export default function PubReviewAppBar() {
                             Publication Review
                         </Typography>
                         <div style={{ flexGrow: 1 }}></div>
-                        {/*<Avatar></Avatar>*/}
-                        {/*<Typography sx={{ color: '#000000', margin: 1 }} variant="body">*/}
-                        {/*    Веремейчик К.И.*/}
-                        {/*</Typography>*/}
                         <Button component={Link}
                                 to="/registration"
                                 size="small"

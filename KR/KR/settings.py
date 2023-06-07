@@ -28,7 +28,7 @@ DEBUG = True
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', "http://127.0.0.1:3000", "http://192.168.43.32:3000"]
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', "http://127.0.0.1:3000"]
 
 # CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
 
@@ -40,8 +40,8 @@ CSRF_COOKIE_SAMESITE = 'None'
 
 # SESSION_COOKIE_SAMESITE_FORCE_ALL = True
 
-# ALLOWED_HOSTS = ["192.168.43.165", "192.168.43.32", "localhost", "127.0.0.1"]
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["192.168.43.165", "localhost", "127.0.0.1"]
+# ALLOWED_HOSTS = ['*']
 CORS_EXPOSE_HEADERS = ["Set-Cookie"]
 
 
@@ -59,12 +59,26 @@ INSTALLED_APPS = [
 
     'django_filters',
     'rest_framework',
+    # 'rest_framework.authtoken',
 
     'drf_yasg',
 
     'corsheaders',
     'channels',
 ]
+
+AUTH_USER_MODEL = "kr_backend.User"
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -112,7 +126,7 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kr_st',
+        'NAME': 'kr_st2',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
@@ -192,3 +206,4 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     },
 }
+

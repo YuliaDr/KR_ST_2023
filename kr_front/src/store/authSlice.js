@@ -15,7 +15,7 @@ export const login = createAsyncThunk(
             const response = await fetch(`http://127.0.0.1:8000/api/login/`, {
                 method: 'POST',
                 credentials: "include",
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     email: email,
                     password: password,
@@ -57,7 +57,7 @@ export const register = createAsyncThunk(
             const response = await fetch(`http://127.0.0.1:8000/api/register/`, {
                 method: 'POST',
                 credentials: "include",
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     last_name: last_name,
                     first_name: first_name,

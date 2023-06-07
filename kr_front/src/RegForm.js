@@ -52,7 +52,6 @@ function RegForm() {
                         }}
                     />
                     <TextField
-                    required
                     id="midnameId"
                     label="Отчество"
                     placeholder="Введите отчество..."

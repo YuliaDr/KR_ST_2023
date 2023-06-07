@@ -1,4 +1,3 @@
-from datetime import datetime
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -13,31 +12,24 @@ def auth_view(request):
     body = ast.literal_eval(request.body.decode('utf-8'))
     email = body["email"]
     password = body["password"]
-    print(email, password)
-    try:
-        user = User.objects.get(email=email)
-        if user is not None and user.check_password(password):
-            login(request, user)
-            # data = {"status": "ok", "email": email}
-            data = {"status": "ok", "id": user.id, "email": email, "first_name": user.first_name,
-                    "last_name": user.last_name, "middle_name": user.middle_name}
-            dump = json.dumps(data)
-            response = HttpResponse(dump, content_type="application/json")
+    user = authenticate(request, email=email, password=password)
+    print(user)
+    if user is not None:
+        login(request, user)
+        data = {"status": "ok", "id": user.id, "email": email, "first_name": user.first_name,
+                "last_name": user.last_name, "middle_name": user.middle_name}
+        dump = json.dumps(data)
+        response = HttpResponse(dump, content_type="application/json")
 
-            return response
-        else:
-            data = {"status": "error", "error": "login failed"}
-            dump = json.dumps(data)
-            return HttpResponse(dump, content_type="application/json")
-
-    except User.DoesNotExist:
-        data = {"status": "error", "error": "does not exist"}
+        return response
+    else:
+        data = {"status": "error", "error": "login failed"}
         dump = json.dumps(data)
         return HttpResponse(dump, content_type="application/json")
 
 
 @csrf_exempt
-# @login_required
+@login_required
 def logout_view(request):
     logout(request)
     data = {"status": "ok"}
@@ -48,8 +40,6 @@ def logout_view(request):
 
 @csrf_exempt
 def register_view(request):
-    print('123', request.body)
-
     body = ast.literal_eval(request.body.decode('utf-8'))
     email = body["email"]
     password = body["password"]
@@ -59,7 +49,6 @@ def register_view(request):
 
     try:
         user = User.objects.get(email=email)
-        # print(user)
         data = {"status": "exists"}
         dump = json.dumps(data)
         response = HttpResponse(dump, content_type="application/json")

@@ -1,6 +1,6 @@
 import './App.css';
 import PubReviewAppBar from "./AppBar";
-import {Avatar, Card, CardActions, CardContent, CardHeader, Stack, TextField} from "@mui/material";
+import {Avatar, Card, CardActions, CardContent, CardHeader, CircularProgress, Stack, TextField} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {Link} from "react-router-dom";
@@ -15,9 +15,7 @@ function Publications() {
     document.body.style.background = '#F4FCFF'
     const current = new Date();
     const curDate = current.toLocaleDateString("ru-RU")
-    // const [alert, setAlert] = useState(null);
     const [connected, setCon] = useState(false)
-    // const [sockett, setSocket] = useState(null)
     const { notify, connect } = useContext(SocketContext);
 
     function handleConnect() {
@@ -25,82 +23,6 @@ function Publications() {
         connect();
 
     }
-    // function handleNotify() {
-    //     notify();
-    // }
-    //
-    // useEffect(() => {
-    //     if (auth.auth === 1 && !sockett) {
-    //         console.log('123321')
-    //         // // socket.on('message', (data) => {
-    //         // //     setAlert(data.message);
-    //         // // });
-    //         // connect();
-    //
-    //
-    //
-    //         socket.current = new WebSocket('ws://localhost:5000')
-    //         setSocket(1)
-    //
-    //         socket.current.onopen = () => {
-    //             // setConnected(true)
-    //             const message = {
-    //                 event: 'connection',
-    //                 user: auth.user.id,
-    //                 id: Date.now()
-    //             }
-    //             socket.current.send(JSON.stringify(message))
-    //         }
-    //         socket.current.onmessage = (event) => {
-    //             const message = JSON.parse(event.data)
-    //             console.log('12345', message)
-    //             alert('Новое сообщение')
-    //             // setMessages(prev => [message, ...prev])
-    //         }
-    //
-    //         socket.current.onclose= () => {
-    //             console.log('Socket закрыт')
-    //         }
-    //
-    //         socket.current.onerror = () => {
-    //             console.log('Socket произошла ошибка')
-    //         }
-    //
-    //     }
-    //
-    //     // socket.
-    // }, [socket]);
-
-    // function connect() {
-    //     socket.current = new WebSocket('ws://localhost:5000')
-    //
-    //     socket.current.onopen = () => {
-    //         // setConnected(true)
-    //         const message = {
-    //             event: 'connection',
-    //             user: auth.user.id,
-    //             id: Date.now()
-    //         }
-    //         socket.current.send(JSON.stringify(message))
-    //     }
-    //     socket.current.onmessage = (event) => {
-    //         const message = JSON.parse(event.data)
-    //         console.log('12345', message)
-    //         alert('Новое сообщение')
-    //         // setMessages(prev => [message, ...prev])
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     if (socket) {
-    //         // socket.current.onmessage = (event) => {
-    //         //     const message = JSON.parse(event.data)
-    //         //     console.log('12345', message)
-    //         //     alert('Новое сообщение')
-    //         //     // setMessages(prev => [message, ...prev])
-    //         // }
-    //     }
-    // }, [socket]);
 
     const posts = useSelector(state => state.posts)
     const auth = useSelector(state => state.auth)
@@ -116,6 +38,9 @@ function Publications() {
     const newPubHandler = () => {
         if (document.getElementById('authorsId').value !== '', document.getElementById('titleId').value !== '', document.getElementById('descId').value !== '') {
             dispatch(postPost({user: auth.user.id, authors: document.getElementById('authorsId').value, title: document.getElementById('titleId').value, descript: document.getElementById('descId').value}));
+            document.getElementById('authorsId').value = ''
+            document.getElementById('titleId').value = ''
+            document.getElementById('descId').value = ''
         }
         else alert("Заполните все поля!");
     }
@@ -135,8 +60,8 @@ function Publications() {
 
                 {/*{auth.auth === 1 && handleConnect()}*/}
 
-                {posts.loading &&  <div className="d-flex justify-content-center"></div> }
-                {!posts.loading && posts.error ? <div>{posts.error}</div>: null}
+                {posts.loading &&  <div style={{ textAlign: 'center' }}><CircularProgress /></div> }
+                {!posts.loading && posts.error ? <div style={{ textAlign: 'center' }}>{posts.error}</div>: null}
                 {!posts.loading && posts.posts.length ? (
                     <div>
                         {posts.posts.map((post, index) => {
@@ -247,7 +172,7 @@ function Publications() {
                         <CardContent style={{ background: '#F4FCFF'}}>
                             <Stack>
                                 <TextField
-                                    // disabled
+                                    required
                                     id="authorsId"
                                     label="Авторы"
                                     placeholder="Введите авторов публикации..."
@@ -259,7 +184,7 @@ function Publications() {
                                     }}
                                 />
                                 <TextField
-                                    // disabled
+                                    required
                                     id="titleId"
                                     label="Название"
                                     placeholder="Введите название публикации..."
@@ -271,7 +196,7 @@ function Publications() {
                                     }}
                                 />
                                 <TextField
-                                    // disabled
+                                    required
                                     id="descId"
                                     multiline
                                     label="Аннотация"

@@ -6,14 +6,10 @@ import {wait} from "@testing-library/user-event/dist/utils";
 export const SocketContext = createContext(null)
 
 export function SocketProvider({ children }) {
-    // const [socket, setSocket] = useState(null)
-    // const [connected, setConnected] = useState(false);
-    // const socket = useRef()
-    const [messages, setMessages] = useState([]);
+
     const [value, setValue] = useState('');
     const socket = useRef()
     const [connected, setConnected] = useState(false);
-    const [username, setUsername] = useState('')
 
     const auth = useSelector(state => state.auth)
 

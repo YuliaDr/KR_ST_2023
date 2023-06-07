@@ -122,7 +122,13 @@ export const postPost = createAsyncThunk(
         try {
             const requestOptions = {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    "X-CSRFToken": document.cookie
+                        .split('; ')
+                        .filter(row => row.startsWith('csrftoken='))
+                        .map(c => c.split('=')[1])[0]
+                },
                 credentials: "include",
                 body: JSON.stringify({
                     authors: authors.toString(),
@@ -159,7 +165,14 @@ export const postComment = createAsyncThunk(
         try {
             const requestOptions = {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    "X-CSRFToken": document.cookie
+                        .split('; ')
+                        .filter(row => row.startsWith('csrftoken='))
+                        .map(c => c.split('=')[1])[0]
+                },
+                credentials: "include",
                 body: JSON.stringify({
                     text: review.toString(),
                     post: post.toString(),

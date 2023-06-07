@@ -1,13 +1,12 @@
 import './App.css';
 import PubReviewAppBar from "./AppBar";
-import {Avatar, Card, CardActions, CardContent, CardHeader, Stack, TextField} from "@mui/material";
+import {Avatar, Card, CardActions, CardContent, CardHeader, CircularProgress, Stack, TextField} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import notify from "./WebSocket"
-// import {check} from "./store/authSlice";
 import {fetchCommentsForPost, fetchPost, fetchUsers, postComment, postPost} from "./store/publicationsSlice";
 import { SocketContext } from './SocketContext';
 import WebSock from "./WebSocket";
@@ -22,14 +21,6 @@ function Publication() {
     function handleNotify() {
         notify();
     }
-
-    // useEffect(() => {
-    //     if (socket) {
-    //         socket.on('message', (data) => {
-    //             setAlert(data.message);
-    //         });
-    //     }
-    // }, [socket]);
 
     let param = useParams().id;
     const auth = useSelector(state => state.auth)
@@ -47,6 +38,7 @@ function Publication() {
         if (document.getElementById('reviewId').value !== '') {
             notify(posts.post.id, posts.post.title, posts.post.user, posts.users.find(user => user.id === posts.post.user)?.email);
             dispatch(postComment({review: document.getElementById('reviewId').value, post: posts.post.id, user: auth.user.id}));
+            document.getElementById('reviewId').value = '';
         }
         else alert("Заполните все поля!");
     }
@@ -57,8 +49,8 @@ function Publication() {
             <div className={'container'}>
                 <div style={{ height: 64, marginBottom: 16}}></div>
 
-                {posts.loading &&  <div className="d-flex justify-content-center"></div> }
-                {!posts.loading && posts.error ? <div>{posts.error}</div>: null}
+                {posts.loading &&  <div style={{ textAlign: 'center' }}><CircularProgress /></div> }
+                {!posts.loading && posts.error ? <div style={{ textAlign: 'center' }}>{posts.error}</div>: null}
                 {!posts.loading && posts.post.title ? (
                     <div>
                         <Stack spacing={1} marginY={2}>
@@ -118,7 +110,7 @@ function Publication() {
                                 />
                                 <CardContent style={{ background: '#F4FCFF'}}>
                                     <TextField
-                                        // disabled
+                                        required
                                         id="reviewId"
                                         multiline
                                         label="Рецензия"
@@ -143,7 +135,6 @@ function Publication() {
                                             direction: 'ltr',
                                             borderRadius: 3}}
                                         onClick={() => { newRevHandler() }}
-                                        // onClick={() => { notify() }}
 
                                     >Опубликовать</Button>
                                 </CardActions>

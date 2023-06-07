@@ -26,8 +26,8 @@ from kr_backend import api, views
 
 router = routers.DefaultRouter()
 router.register(r'user', api.UserListAPIView)
-router.register(r'post', api.PostListAPIView)
-router.register(r'review', api.ReviewListAPIView)
+router.register(r'post', api.PostListAPIView, basename="post")
+router.register(r'review', api.ReviewListAPIView, basename="review")
 
 schema_view = get_schema_view(
     openapi.Info(
